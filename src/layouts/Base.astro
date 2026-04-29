@@ -1,0 +1,248 @@
+---
+import SEO from '../components/SEO.astro';
+import { withBase } from '../lib/url';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: Date;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  ogType = 'website',
+  publishedTime,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <SEO
+      title={title}
+      description={description}
+      canonicalPath={canonicalPath}
+      ogType={ogType}
+      publishedTime={publishedTime}
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="rpe"
+      href={withBase('/rss.xml')}
+    />
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
+    <style is:inline>
+      :root {
+        --bg: #fff;
+        --fg: #1a1a1a;
+        --muted: #666;
+        --accent: #0066cc;
+        --rule: #e5e5e5;
+        --code-bg: #f6f6f6;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111;
+          --fg: #eee;
+          --muted: #999;
+          --accent: #6ab0ff;
+          --rule: #2a2a2a;
+          --code-bg: #1a1a1a;
+        }
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        background: var(--bg);
+        color: var(--fg);
+        font-family:
+          system-ui,
+          -apple-system,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        font-size: 17px;
+        line-height: 1.6;
+      }
+      body {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .wrap {
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 1.5rem 1rem;
+        width: 100%;
+      }
+      header.site {
+        border-bottom: 1px solid var(--rule);
+      }
+      header.site .wrap {
+        display: flex;
+        gap: 1rem;
+        align-items: baseline;
+        justify-content: space-between;
+        padding-block: 1rem;
+      }
+      header.site a.brand {
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-decoration: none;
+        color: var(--fg);
+      }
+      header.site nav {
+        display: flex;
+        gap: 1rem;
+      }
+      header.site nav a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+      header.site nav a:hover {
+        color: var(--accent);
+      }
+      main {
+        flex: 1;
+      }
+      footer.site {
+        border-top: 1px solid var(--rule);
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      footer.site .wrap {
+        padding-block: 1rem;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      footer.site a {
+        color: var(--muted);
+      }
+      a {
+        color: var(--accent);
+      }
+      h1,
+      h2,
+      h3 {
+        line-height: 1.25;
+        margin: 1.5em 0 0.5em;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      h2 {
+        font-size: 1.35rem;
+      }
+      h3 {
+        font-size: 1.1rem;
+      }
+      p,
+      ul,
+      ol {
+        margin: 0 0 1em;
+      }
+      img,
+      video {
+        max-width: 100%;
+        height: auto;
+      }
+      pre {
+        padding: 0.75rem 1rem;
+        overflow-x: auto;
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+      code {
+        font-family:
+          ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          Consolas,
+          monospace;
+        font-size: 0.92em;
+      }
+      :not(pre) > code {
+        background: var(--code-bg);
+        padding: 0.1em 0.35em;
+        border-radius: 3px;
+      }
+      blockquote {
+        margin: 0 0 1em;
+        padding-left: 1rem;
+        border-left: 3px solid var(--rule);
+        color: var(--muted);
+      }
+      hr {
+        border: 0;
+        border-top: 1px solid var(--rule);
+        margin: 2rem 0;
+      }
+      .post-list {
+        list-style: none;
+        padding: 0;
+      }
+      .post-list li {
+        margin-bottom: 1.25rem;
+      }
+      .post-list time {
+        color: var(--muted);
+        font-size: 0.85rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .post-list a {
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .post-list a:hover {
+        text-decoration: underline;
+      }
+      .post-list p {
+        margin: 0.25rem 0 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      article header time {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <a class="brand" href={withBase('/')}>rpe</a>
+        <nav>
+          <a href={withBase('/about')}>about</a>
+          <a href={withBase('/rss.xml')}>rss</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="wrap">
+        <slot />
+      </div>
+    </main>
+    <footer class="site">
+      <div class="wrap">
+        <span>&copy; {new Date().getFullYear()} rpe</span>
+        <span>
+          <a href="https://github.com/rpeight8/rpe">source</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

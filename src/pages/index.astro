@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { withBase } from '../lib/url';
+
+const posts = (
+  await getCollection('posts', ({ data }) =>
+    import.meta.env.PROD ? !data.draft : true,
+  )
+).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const dateFmt = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<Base
+  title="rpe"
+  description="rpe"
+  canonicalPath="/"
+>
+  <h1>rpe</h1>
+  <p>Placeholder.</p>
+
+  {
+    posts.length === 0 ? (
+      <p><em>No posts yet.</em></p>
+    ) : (
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li>
+            <time datetime={post.data.date.toISOString()}>
+              {dateFmt.format(post.data.date)}
+            </time>
+            <br />
+            <a href={withBase(`/posts/${post.id}`)}>{post.data.title}</a>
+            <p>{post.data.description}</p>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</Base>

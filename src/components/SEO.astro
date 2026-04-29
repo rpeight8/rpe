@@ -1,0 +1,46 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: Date;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  ogType = 'website',
+  publishedTime,
+} = Astro.props;
+
+const siteName = 'rpe';
+const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
+
+const canonicalUrl = canonicalPath
+  ? new URL(canonicalPath, Astro.site).toString()
+  : Astro.url.toString();
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+{
+  publishedTime && (
+    <meta
+      property="article:published_time"
+      content={publishedTime.toISOString()}
+    />
+  )
+}
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />

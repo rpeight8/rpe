@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rpeight8.github.io/rpe/sitemap-index.xml
