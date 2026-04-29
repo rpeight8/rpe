@@ -1,5 +1,5 @@
 ---
-title: "UI monkey path"
+title: "Post UI monkey"
 description: "Struggling with AI-driven change, self-doubt, and a slow period at work"
 date: 2026-04-29
 order: 1
