@@ -5,9 +5,12 @@ date: 2026-04-29
 order: 1
 ---
 
-Placeholder roadmap items:
+I didn’t want to overthink things too much, so I quickly put together a list of areas that seem worth exploring right now. Just a rough direction to keep moving instead of standing still:
 
-- Placeholder item 1
-- Placeholder item 2
-- Placeholder item 3
-- Placeholder item 4
+- Linux system administration
+- Containers and orchestration
+- Cloud infrastructure
+- Infrastructure as Code
+- CI/CD and DevOps practices
+- Scripting and automation
+- AI tooling and MCP server development
