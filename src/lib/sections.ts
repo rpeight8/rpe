@@ -2,25 +2,21 @@ import type { CollectionEntry } from 'astro:content';
 
 export type SectionEntry = CollectionEntry<'sections'>;
 
-const INDEX_SUFFIX = '/index';
+const INDEX_FILE_RE = /[\\/]index\.mdx?$/;
 
-export const isIndexEntry = (id: string): boolean =>
-  id === 'index' || id.endsWith(INDEX_SUFFIX);
+export const isIndexEntry = (entry: SectionEntry): boolean =>
+  INDEX_FILE_RE.test(entry.filePath ?? '');
 
-export const entryToUrlPath = (id: string): string => {
-  if (id === 'index') return '';
-  if (id.endsWith(INDEX_SUFFIX)) return id.slice(0, -INDEX_SUFFIX.length);
-  return id;
-};
-
-export const isDirectChild = (entryId: string, parentPath: string): boolean => {
+export const isDirectChild = (
+  entry: SectionEntry,
+  parentPath: string,
+): boolean => {
+  if (entry.id === parentPath) return false;
   const prefix = parentPath ? `${parentPath}/` : '';
-  if (parentPath && !entryId.startsWith(prefix)) return false;
-  if (parentPath && entryId === `${parentPath}${INDEX_SUFFIX}`) return false;
-  const rest = entryId.slice(prefix.length);
+  if (parentPath && !entry.id.startsWith(prefix)) return false;
+  const rest = entry.id.slice(prefix.length);
   if (!rest) return false;
-  if (!rest.includes('/')) return true;
-  return rest.endsWith(INDEX_SUFFIX) && !rest.slice(0, -INDEX_SUFFIX.length).includes('/');
+  return !rest.includes('/');
 };
 
 export const getDirectChildren = (
@@ -28,7 +24,7 @@ export const getDirectChildren = (
   parentPath: string,
 ): SectionEntry[] =>
   all
-    .filter((e) => isDirectChild(e.id, parentPath))
+    .filter((e) => isDirectChild(e, parentPath))
     .sort((a, b) => {
       const oa = a.data.order ?? Number.POSITIVE_INFINITY;
       const ob = b.data.order ?? Number.POSITIVE_INFINITY;
@@ -50,9 +46,7 @@ export const breadcrumbs = (
   let acc = '';
   for (let i = 0; i < segments.length; i++) {
     acc = acc ? `${acc}/${segments[i]}` : segments[i];
-    const entry = all.find(
-      (e) => e.id === acc || e.id === `${acc}${INDEX_SUFFIX}`,
-    );
+    const entry = all.find((e) => e.id === acc);
     crumbs.push({
       label: entry?.data.title ?? segments[i],
       href: `/${acc}`,

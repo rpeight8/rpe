@@ -2,7 +2,6 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import {
-  entryToUrlPath,
   isIndexEntry,
   getDirectChildren,
   breadcrumbs,
@@ -16,12 +15,11 @@ export async function getStaticPaths() {
     import.meta.env.PROD ? !data.draft : true,
   );
   return all.map((entry) => {
-    const slug = entryToUrlPath(entry.id);
-    const isSection = isIndexEntry(entry.id);
-    const childEntries = isSection ? getDirectChildren(all, slug) : [];
-    const crumbs = breadcrumbs(slug, all);
+    const isSection = isIndexEntry(entry);
+    const childEntries = isSection ? getDirectChildren(all, entry.id) : [];
+    const crumbs = breadcrumbs(entry.id, all);
     return {
-      params: { slug },
+      params: { slug: entry.id },
       props: { entry, isSection, childEntries, crumbs },
     };
   });
@@ -36,14 +34,12 @@ interface Props {
 
 const { entry, isSection, childEntries, crumbs } = Astro.props;
 const { Content } = await render(entry);
-
-const slug = entryToUrlPath(entry.id);
 ---
 
 <Base
   title={entry.data.title}
   description={entry.data.description}
-  canonicalPath={`/${slug}`}
+  canonicalPath={`/${entry.id}`}
   ogType={isSection ? 'website' : 'article'}
   publishedTime={entry.data.date}
 >
@@ -76,15 +72,12 @@ const slug = entryToUrlPath(entry.id);
     {
       isSection && childEntries.length > 0 && (
         <ul class="post-list children">
-          {childEntries.map((c) => {
-            const childSlug = entryToUrlPath(c.id);
-            return (
-              <li>
-                <a href={withBase(`/${childSlug}`)}>{c.data.title}</a>
-                <p>{c.data.description}</p>
-              </li>
-            );
-          })}
+          {childEntries.map((c) => (
+            <li>
+              <a href={withBase(`/${c.id}`)}>{c.data.title}</a>
+              <p>{c.data.description}</p>
+            </li>
+          ))}
         </ul>
       )
     }
