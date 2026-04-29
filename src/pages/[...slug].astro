@@ -1,0 +1,139 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import {
+  isIndexEntry,
+  getDirectChildren,
+  breadcrumbs,
+  type SectionEntry,
+  type Crumb,
+} from '../lib/sections';
+import { withBase } from '../lib/url';
+
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+
+export async function getStaticPaths() {
+  const all = await getCollection('sections', ({ data }) =>
+    import.meta.env.PROD ? !data.draft : true,
+  );
+  return all.map((entry) => {
+    const isSection = isIndexEntry(entry);
+    const childEntries = isSection ? getDirectChildren(all, entry.id) : [];
+    const crumbs = breadcrumbs(entry.id, all);
+    return {
+      params: { slug: entry.id },
+      props: { entry, isSection, childEntries, crumbs },
+    };
+  });
+}
+
+interface Props {
+  entry: SectionEntry;
+  isSection: boolean;
+  childEntries: SectionEntry[];
+  crumbs: Crumb[];
+}
+
+const { entry, isSection, childEntries, crumbs } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Base
+  title={entry.data.title}
+  description={entry.data.description}
+  canonicalPath={`/${entry.id}`}
+  ogType={isSection ? 'website' : 'article'}
+  publishedTime={entry.data.date}
+>
+  {
+    crumbs.length > 1 && (
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          {crumbs.map((c, i) => (
+            <li>
+              {i < crumbs.length - 1 ? (
+                <a href={withBase(c.href)}>{c.label}</a>
+              ) : (
+                <span aria-current="page">{c.label}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )
+  }
+
+  <article>
+    <header>
+      <h1>{entry.data.title}</h1>
+      <p class="lede">{entry.data.description}</p>
+      {
+        !isSection && (
+          <time datetime={iso(entry.data.date)} class="date">
+            {iso(entry.data.date)}
+          </time>
+        )
+      }
+    </header>
+
+    <Content />
+
+    {
+      isSection && childEntries.length > 0 && (
+        <ul class="post-list children">
+          {childEntries.map((c) => (
+            <li>
+              <time datetime={iso(c.data.date)}>{iso(c.data.date)}</time>
+              {c.data.updated && (
+                <>
+                  {' '}
+                  &middot; updated{' '}
+                  <time datetime={iso(c.data.updated)}>{iso(c.data.updated)}</time>
+                </>
+              )}
+              <br />
+              <a href={withBase(`/${c.id}`)}>{c.data.title}</a>
+              <p>{c.data.description}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </article>
+</Base>
+
+<style is:inline>
+  .crumbs ol {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+  }
+  .crumbs li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .crumbs li:not(:last-child)::after {
+    content: '/';
+    color: var(--muted);
+  }
+  .crumbs span[aria-current='page'] {
+    color: var(--muted);
+  }
+  .lede {
+    color: var(--muted);
+    margin-top: -0.25rem;
+  }
+  .children {
+    margin-top: 1.5rem;
+  }
+  article header .date {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+  }
+</style>

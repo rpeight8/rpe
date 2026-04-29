@@ -3,17 +3,13 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { withBase } from '../lib/url';
 
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+
 const posts = (
   await getCollection('posts', ({ data }) =>
     import.meta.env.PROD ? !data.draft : true,
   )
 ).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const dateFmt = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-});
 ---
 
 <Base
@@ -31,9 +27,14 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
       <ul class="post-list">
         {posts.map((post) => (
           <li>
-            <time datetime={post.data.date.toISOString()}>
-              {dateFmt.format(post.data.date)}
-            </time>
+            <time datetime={iso(post.data.date)}>{iso(post.data.date)}</time>
+            {post.data.updated && (
+              <>
+                {' '}
+                &middot; updated{' '}
+                <time datetime={iso(post.data.updated)}>{iso(post.data.updated)}</time>
+              </>
+            )}
             <br />
             <a href={withBase(`/posts/${post.id}`)}>{post.data.title}</a>
             <p>{post.data.description}</p>
