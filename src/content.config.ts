@@ -18,7 +18,8 @@ const sections = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    date: z.coerce.date().optional(),
+    date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
     order: z.number().optional(),
     draft: z.boolean().default(false),
     tags: z.array(z.string()).default([]),

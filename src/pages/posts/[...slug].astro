@@ -2,6 +2,8 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) =>
     import.meta.env.PROD ? !data.draft : true,
@@ -18,12 +20,6 @@ interface Props {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-
-const dateFmt = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
 ---
 
 <Base
@@ -36,17 +32,13 @@ const dateFmt = new Intl.DateTimeFormat('en-US', {
   <article>
     <header>
       <h1>{post.data.title}</h1>
-      <time datetime={post.data.date.toISOString()}>
-        {dateFmt.format(post.data.date)}
-      </time>
+      <time datetime={iso(post.data.date)}>{iso(post.data.date)}</time>
       {
         post.data.updated && (
           <>
             {' '}
             &middot; updated{' '}
-            <time datetime={post.data.updated.toISOString()}>
-              {dateFmt.format(post.data.updated)}
-            </time>
+            <time datetime={iso(post.data.updated)}>{iso(post.data.updated)}</time>
           </>
         )
       }

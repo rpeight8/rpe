@@ -10,6 +10,8 @@ import {
 } from '../lib/sections';
 import { withBase } from '../lib/url';
 
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+
 export async function getStaticPaths() {
   const all = await getCollection('sections', ({ data }) =>
     import.meta.env.PROD ? !data.draft : true,
@@ -65,6 +67,13 @@ const { Content } = await render(entry);
     <header>
       <h1>{entry.data.title}</h1>
       <p class="lede">{entry.data.description}</p>
+      {
+        !isSection && (
+          <time datetime={iso(entry.data.date)} class="date">
+            {iso(entry.data.date)}
+          </time>
+        )
+      }
     </header>
 
     <Content />
@@ -74,6 +83,15 @@ const { Content } = await render(entry);
         <ul class="post-list children">
           {childEntries.map((c) => (
             <li>
+              <time datetime={iso(c.data.date)}>{iso(c.data.date)}</time>
+              {c.data.updated && (
+                <>
+                  {' '}
+                  &middot; updated{' '}
+                  <time datetime={iso(c.data.updated)}>{iso(c.data.updated)}</time>
+                </>
+              )}
+              <br />
               <a href={withBase(`/${c.id}`)}>{c.data.title}</a>
               <p>{c.data.description}</p>
             </li>
@@ -112,5 +130,10 @@ const { Content } = await render(entry);
   }
   .children {
     margin-top: 1.5rem;
+  }
+  article header .date {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
   }
 </style>
