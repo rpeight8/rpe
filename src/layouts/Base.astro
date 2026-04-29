@@ -1,6 +1,7 @@
 ---
 import SEO from '../components/SEO.astro';
 import { withBase } from '../lib/url';
+import { nav } from '../data/nav';
 
 interface Props {
   title: string;
@@ -288,8 +289,7 @@ const {
       <div class="wrap">
         <a class="brand" href={withBase('/')}>rpe</a>
         <nav aria-label="Primary">
-          <a href={withBase('/about')}>about</a>
-          <a href={withBase('/rss.xml')}>rss</a>
+          {nav.map((item) => <a href={withBase(item.href)}>{item.label}</a>)}
         </nav>
       </div>
     </header>
