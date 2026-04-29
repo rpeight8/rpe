@@ -25,6 +25,16 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta
+      name="theme-color"
+      content="#ffffff"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#111111"
+      media="(prefers-color-scheme: dark)"
+    />
     <SEO
       title={title}
       description={description}
@@ -43,7 +53,7 @@ const {
       :root {
         --bg: #fff;
         --fg: #1a1a1a;
-        --muted: #666;
+        --muted: #555;
         --accent: #0066cc;
         --rule: #e5e5e5;
         --code-bg: #f6f6f6;
@@ -52,7 +62,7 @@ const {
         :root {
           --bg: #111;
           --fg: #eee;
-          --muted: #999;
+          --muted: #a8a8a8;
           --accent: #6ab0ff;
           --rule: #2a2a2a;
           --code-bg: #1a1a1a;
@@ -74,12 +84,40 @@ const {
           sans-serif;
         font-size: 17px;
         line-height: 1.6;
+        -webkit-tap-highlight-color: transparent;
       }
       body {
         margin: 0;
         display: flex;
         flex-direction: column;
         min-height: 100vh;
+      }
+      :focus:not(:focus-visible) {
+        outline: none;
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+      .skip {
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+      .skip:focus {
+        position: static;
+        display: inline-block;
+        width: auto;
+        height: auto;
+        margin: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: var(--bg);
+        color: var(--accent);
+        outline: 2px solid var(--accent);
       }
       .wrap {
         max-width: 42rem;
@@ -93,29 +131,37 @@ const {
       header.site .wrap {
         display: flex;
         gap: 1rem;
+        row-gap: 0.5rem;
+        flex-wrap: wrap;
         align-items: baseline;
         justify-content: space-between;
-        padding-block: 1rem;
+        padding-block: 0.75rem;
       }
       header.site a.brand {
         font-weight: 600;
         font-size: 1.1rem;
         text-decoration: none;
         color: var(--fg);
+        padding: 0.25rem 0;
       }
       header.site nav {
         display: flex;
         gap: 1rem;
+        flex-wrap: wrap;
       }
       header.site nav a {
         color: var(--muted);
-        text-decoration: none;
+        padding: 0.5rem 0;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.25em;
       }
       header.site nav a:hover {
         color: var(--accent);
       }
       main {
         flex: 1;
+        overflow-wrap: anywhere;
       }
       footer.site {
         border-top: 1px solid var(--rule);
@@ -131,6 +177,10 @@ const {
       }
       footer.site a {
         color: var(--muted);
+        padding: 0.25rem 0;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.25em;
       }
       a {
         color: var(--accent);
@@ -179,6 +229,7 @@ const {
         background: var(--code-bg);
         padding: 0.1em 0.35em;
         border-radius: 3px;
+        overflow-wrap: anywhere;
       }
       blockquote {
         margin: 0 0 1em;
@@ -219,19 +270,30 @@ const {
         color: var(--muted);
         font-size: 0.9rem;
       }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
     </style>
   </head>
   <body>
+    <a class="skip" href="#main">Skip to content</a>
     <header class="site">
       <div class="wrap">
         <a class="brand" href={withBase('/')}>rpe</a>
-        <nav>
+        <nav aria-label="Primary">
           <a href={withBase('/about')}>about</a>
           <a href={withBase('/rss.xml')}>rss</a>
         </nav>
       </div>
     </header>
-    <main>
+    <main id="main" tabindex="-1">
       <div class="wrap">
         <slot />
       </div>
@@ -240,7 +302,12 @@ const {
       <div class="wrap">
         <span>&copy; {new Date().getFullYear()} rpe</span>
         <span>
-          <a href="https://github.com/rpeight8/rpe">source</a>
+          <a
+            href="https://github.com/rpeight8/rpe"
+            rel="noopener noreferrer"
+          >
+            source
+          </a>
         </span>
       </div>
     </footer>
