@@ -1,22 +1,22 @@
 ---
 title: "Post UI monkey"
-description: "Struggling with AI-driven change, self-doubt, and a slow period at work"
+description: "Struggling with AI-driven change and self-doubt"
 date: 2026-04-29
 order: 1
 ---
 
-Over the past months, I’ve been dealing with a growing sense of discomfort around how fast AI is evolving. The constant hype doesn’t just feel exciting - it also makes me feel like I’m being outrun by the pace of progress.
+Over the past few months, I’ve been sitting with a quiet but growing sense of unease about how fast AI is moving. On the surface, all the progress and excitement should feel inspiring - but if I’m honest, it’s also been a little overwhelming. Sometimes it feels less like I’m riding the wave and more like I’m trying to keep up with something that’s already far ahead.
 
-Until recently, my workflow was pretty straightforward. I was using tools like ChatGPT and GitHub Copilot to support my day-to-day work, mostly focused on UI development and CRUD endpoints. They were really helpful.
+Not long ago, things felt simple and manageable. My workflow was clear: I leaned on tools like ChatGPT and GitHub Copilot to help with everyday tasks - mostly UI work and CRUD endpoints. They made my job easier, smoother, even enjoyable at times. It felt like a natural kind of support.
 
-That changed when I started experimenting with Claude Opus over the last few months. It was surprisingly capable - in many cases, it could handle almost everything I was doing as part of my routine job. The only real exceptions were SAP-specific areas like SAPUI5 and Fiori. But I believe that it is just a matter of time when a lot of SAP related knowledge will be publicly available for AI to learn from.
+Then I started experimenting more deeply with Claude Opus, and that’s when things shifted. It wasn’t just helpful—it was impressively capable. In many situations, it could handle almost everything I typically did in my day-to-day work. The only areas where it struggled were more niche, like SAPUI5 and Fiori—but even there, it’s hard not to feel like it’s only a matter of time before AI catches up.
 
-Between my own observations and conversations with others, I started to come to an uncomfortable conclusion: the skills and tech stack I’ve been relying on might be more replaceable than I’d like to admit. That realization has definitely shaken my confidence about the future.
+That realization landed heavier than I expected. Gradually, through my own experience and conversations with others, I started to face a difficult thought: the skills I’ve relied on, the stack I’ve grown comfortable with, might not be as future-proof as I once believed. And that’s been unsettling. It’s hard not to feel a dip in confidence when something you’ve built your career on suddenly feels uncertain.
 
-To make things harder, this period has also coincided with a lack of paid projects at my current company. Having less real work to focus on has amplified those thoughts and made the uncertainty feel even heavier.
+At the same time, there’s been another layer to all of this. Work has slowed down at my company, and the lack of projects has left more space for these thoughts to grow. Without the usual rhythm of real work to ground me, the uncertainty has felt louder, heavier, harder to ignore.
 
-Instead of letting that spiral into complete stagnation, I’ve been trying to take a step back and reassess. From what I’ve seen - both in industry discussions and from people working in the field - areas like infrastructure, platforms, and developer tooling seem more resilient.
+But somewhere in the middle of all that, I’ve been trying to shift my perspective. Instead of letting the fear freeze me in place, I’m starting to treat this as a moment to pause and reflect. From what I’ve seen—and from conversations with people across the industry—it seems like areas such as infrastructure, platforms, and developer tooling may offer more stability in the long run.
 
-That’s where my focus is starting to shift. I don’t have all the answers yet, but I do know that staying still isn’t an option. For now, I’m choosing to learn, adapt, and explore - even if it means starting from a place of uncertainty. 
+So that’s where I’m gently turning my focus. I don’t have everything figured out yet, and I’m okay admitting that. What I do know is that standing still isn’t really an option. For now, I’m choosing to stay curious - to learn, to adapt, and to explore, even if it means stepping into the unknown.
 
-So I will dedicate this section to my journey of learning and exploring new areas for the next 6-8 months.
+Over the next 6–8 months, I want to dedicate this space to that journey. Not as a polished story with all the answers, but as an honest record of figuring things out along the way.
