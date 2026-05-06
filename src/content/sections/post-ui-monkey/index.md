@@ -19,4 +19,4 @@ But somewhere in the middle of all that, I’ve been trying to shift my perspect
 
 So that’s where I’m gently turning my focus. I don’t have everything figured out yet, and I’m okay admitting that. What I do know is that standing still isn’t really an option. For now, I’m choosing to stay curious - to learn, to adapt, and to explore, even if it means stepping into the unknown.
 
-Over the next 6–8 months, I want to dedicate this space to that journey. Not as a polished story with all the answers, but as an honest record of figuring things out along the way.
+Over the next 6-8 months, I want to dedicate this space to that journey. Not as a polished story with all the answers, but as an honest record of figuring things out along the way.
