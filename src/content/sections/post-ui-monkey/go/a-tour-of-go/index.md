@@ -1,7 +1,6 @@
 ---
 title: "A Tour of Go"
 description: "A Tour of Go"
-date: 2026-05-07
 order: 1
 ---
 

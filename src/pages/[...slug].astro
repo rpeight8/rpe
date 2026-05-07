@@ -66,9 +66,9 @@ const { Content } = await render(entry);
   <article>
     <header>
       <h1>{entry.data.title}</h1>
-      <p class="lede">{entry.data.description}</p>
+      {entry.data.description && <p class="lede">{entry.data.description}</p>}
       {
-        !isSection && (
+        !isSection && entry.data.date && (
           <time datetime={iso(entry.data.date)} class="date">
             {iso(entry.data.date)}
           </time>
@@ -83,17 +83,23 @@ const { Content } = await render(entry);
         <ul class="post-list children">
           {childEntries.map((c) => (
             <li>
-              <time datetime={iso(c.data.date)}>{iso(c.data.date)}</time>
-              {c.data.updated && (
+              {c.data.date && (
                 <>
-                  {' '}
-                  &middot; updated{' '}
-                  <time datetime={iso(c.data.updated)}>{iso(c.data.updated)}</time>
+                  <time datetime={iso(c.data.date)}>{iso(c.data.date)}</time>
+                  {c.data.updated && (
+                    <>
+                      {' '}
+                      &middot; updated{' '}
+                      <time datetime={iso(c.data.updated)}>
+                        {iso(c.data.updated)}
+                      </time>
+                    </>
+                  )}
+                  <br />
                 </>
               )}
-              <br />
               <a href={withBase(`/${c.id}`)}>{c.data.title}</a>
-              <p>{c.data.description}</p>
+              {c.data.description && <p>{c.data.description}</p>}
             </li>
           ))}
         </ul>
