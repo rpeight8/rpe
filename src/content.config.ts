@@ -17,8 +17,8 @@ const sections = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/sections' }),
   schema: z.object({
     title: z.string(),
-    description: z.string(),
-    date: z.coerce.date(),
+    description: z.string().optional(),
+    date: z.coerce.date().optional(),
     updated: z.coerce.date().optional(),
     order: z.number().optional(),
     draft: z.boolean().default(false),

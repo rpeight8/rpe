@@ -1,7 +1,7 @@
 ---
 interface Props {
   title: string;
-  description: string;
+  description?: string;
   canonicalPath?: string;
   ogType?: 'website' | 'article';
   publishedTime?: Date;
@@ -24,13 +24,13 @@ const canonicalUrl = canonicalPath
 ---
 
 <title>{fullTitle}</title>
-<meta name="description" content={description} />
+{description && <meta name="description" content={description} />}
 <link rel="canonical" href={canonicalUrl} />
 
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={siteName} />
 <meta property="og:title" content={fullTitle} />
-<meta property="og:description" content={description} />
+{description && <meta property="og:description" content={description} />}
 <meta property="og:url" content={canonicalUrl} />
 {
   publishedTime && (
@@ -43,4 +43,4 @@ const canonicalUrl = canonicalPath
 
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content={fullTitle} />
-<meta name="twitter:description" content={description} />
+{description && <meta name="twitter:description" content={description} />}
